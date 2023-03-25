@@ -2,7 +2,7 @@
 
 Used to parse config information for Remcos
 
-![Image](/Script.png)
+![Image](Script.png)
 
 # Useful for
 - Retrieving Remcos Configs

@@ -8,7 +8,7 @@ RedLine_Parser.py <FILE_PATH>
 ```
 <br>
 
-![Image](/Script.png)
+![Image](Script.png)
 <br>
 
 ### [Reference vid](https://youtu.be/xV0x7kNZ_Yc)
