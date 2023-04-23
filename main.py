@@ -1,9 +1,9 @@
 from argparse import ArgumentParser
 from logging import basicConfig, DEBUG, WARNING
 
-from RedLine import RedlineParser
-from XWorm import XwormParser
-from Remcos import RemcosParser
+from RedLine.RedlineParser import RedLineParser
+from XWorm.XwormParser import XWormParser
+from Remcos.RemcosParser import retrieveResource
 
 from Utils.ConfigList import list_configs
 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     for fp in args.File_Path:
         try:
             if args.mode == 'RedLine':
-                print(RedlineParser(fp))
+                print("Redline Mode")
             else:
                 print(f'No Family found for {fp}')
         except:
