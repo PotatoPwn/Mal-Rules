@@ -14,16 +14,7 @@ logger = getLogger(__name__)
 
 class RedLineParser:
 
-    OPCODE_RET = b'\x2a'
-    PATTERN_CLR_METADATA_START = b'\x42\x53\x4a\x42'
-    PATTERN_CONFIG_START = b'(\x72.{9}){4}'
-    PATTERN_PARSED_RVAS = b'\x72(.{4})\x80(.{4})'
-    STREAM_IDENTIFIER_STORAGE = b'#~'
-    STREAM_IDENTIFIER_STRINGS = b'#Strings'
-    STREAM_IDENTIFIER_US = b'#US'
-    TABLE_FIELD = 'Field'
-    RVA_US_BASE = 0x70000000
-    RVA_STRING_BASE = 0x04000000
+
 
     # This map assists in calculating offsets for Field and FieldRVA entries.
     MAP_TABLE = {
