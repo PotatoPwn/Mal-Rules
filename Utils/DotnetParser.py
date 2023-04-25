@@ -1,6 +1,6 @@
 from logging import getLogger
 from re import DOTALL, findall, search
-from MapTable import MAP_TABLE
+from Utils.MapTable import MAP_TABLE
 
 logger = getLogger(__name__)
 
@@ -20,9 +20,6 @@ class ClrParser:
     RVA_US_BASE = 0x70000000
     RVA_STRING_BASE = 0x04000000
     MAP_TABLE = MAP_TABLE
-
-    # Error Handling
-
 
     def __init__(self, file_path, config_pattern_bytes):
         self.PATTERN_CONFIG_START = config_pattern_bytes
@@ -94,7 +91,7 @@ class ClrParser:
                     )
                     cur_offset += 4
                 else:
-                    table_map[table]['num_row'] = 0
+                    table_map[table]['num_rows'] = 0
         except Exception as e:
             raise ErrorHandling(
                 f'Unable to get counts of row from table'

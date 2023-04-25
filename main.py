@@ -1,8 +1,8 @@
 from argparse import ArgumentParser
 from logging import basicConfig, DEBUG, WARNING
 
-from RedLine.RedlineParser import RedLineParser
-from XWorm.XwormParser import XWormParser
+from RedLine.RedLineParserv2 import RedLineConfigParser
+from XWorm.XwormParserv2 import XWormConfigParser
 from Remcos.RemcosParser import retrieveResource
 
 from Utils.ConfigList import list_configs
@@ -40,10 +40,12 @@ if __name__ == '__main__':
 
     for fp in args.File_Path:
         try:
-            if args.mode == 'RedLine':
-                print("Redline Mode")
+            if args.mode.lower() == "redline":
+                RedLineConfigParser(fp)
+            if args.mode.lower() == "xworm":
+                XWormConfigParser(fp)
             else:
-                print(f'No Family found for {fp}')
+                print(f"No config for {args.mode}")
         except:
             print(f'Error Occurred while parsing {fp}')
 
