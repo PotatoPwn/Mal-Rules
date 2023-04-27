@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+
 from argparse import ArgumentParser
 from logging import basicConfig, DEBUG, WARNING
+from json import dumps
 
 from RedLine.RedLineParserv2 import RedLineConfigParser
 from XWorm.XwormParserv2 import XWormConfigParser
 from Remcos.RemcosParser import retrieveResource
+
+
 
 from Utils.ConfigList import list_configs
 
@@ -39,15 +44,21 @@ if __name__ == '__main__':
 
 
     for fp in args.File_Path:
+        results = []
         try:
             if args.mode.lower() == "redline":
-                RedLineConfigParser(fp)
+                parsed_results = RedLineConfigParser(fp)
             if args.mode.lower() == "xworm":
-                XWormConfigParser(fp)
+                parsed_results = XWormConfigParser(fp)
+            if args.mode.lower() == "remcos":
+                parsed_results = retrieveResource(fp)
             else:
                 print(f"No config for {args.mode}")
+            results.append(parsed_results)
         except:
             print(f'Error Occurred while parsing {fp}')
+        #print(dumps(parsed_results, indent=2))
+        print(parsed_results)
 
 
 
