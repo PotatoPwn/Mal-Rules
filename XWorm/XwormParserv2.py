@@ -1,6 +1,35 @@
 from Utils.DotnetParser import ClrParser
+from hashlib import md5
+from base64 import b64decode
+from Crypto.Cipher import AES
+from re import sub
 
 def XWormConfigParser(file_path):
     byte_config = b'(\x72.{9}){3}'
-    Result = ClrParser(file_path, byte_config)
-    print(Result.decrypted_config())
+    enc_result = ClrParser(file_path, byte_config)
+    return config_result(enc_result.decrypted_config())
+
+def config_result(result):
+    key = generate_aes_key(list(result.values())[-1])
+    host = decode_rest(list(result.values())[0], key)
+    port = decode_rest(list(result.values())[1], key)
+    report = {
+        'Host': host[:-3],
+        'Port': sub(r"\f", "", port),
+        'Key': key
+    }
+    return report
+
+
+def generate_aes_key(mutex):
+    '''This malware Converts its mutex into an md5 hash and adds onto it twice...'''
+    m_hash = md5(bytes(mutex, 'UTF-8')).hexdigest()
+    key = m_hash[:30] + m_hash + '00'
+    return key
+
+def decode_rest(enc_text, key):
+    init_key = AES.new(bytes.fromhex(key), AES.MODE_ECB)
+    stage_1 = b64decode(enc_text)
+    stage_2 = init_key.decrypt(stage_1).decode()
+    return stage_2
+
