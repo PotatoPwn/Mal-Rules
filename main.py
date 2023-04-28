@@ -6,7 +6,7 @@ from json import dumps
 
 from RedLine.RedLineParserv2 import RedLineConfigParser
 from XWorm.XwormParserv2 import XWormConfigParser
-from Remcos.RemcosParser import retrieveResource
+from Remcos.RemcosParserv2 import RemcosConfigParser
 
 
 
@@ -51,14 +51,14 @@ if __name__ == '__main__':
             if args.mode.lower() == "xworm":
                 parsed_results = XWormConfigParser(fp)
             if args.mode.lower() == "remcos":
-                parsed_results = retrieveResource(fp)
+                parsed_results = RemcosConfigParser(fp)
             else:
                 print(f"No config for {args.mode}")
             results.append(parsed_results)
         except:
             print(f'Error Occurred while parsing {fp}')
-        #print(dumps(parsed_results, indent=2))
-        print(parsed_results)
+        print(dumps(parsed_results, indent=2))
+
 
 
 

@@ -23,13 +23,9 @@ def rc4_encrypt(plaintext, key):
         k = S[(S[i] + S[j]) % 256]
         ciphertext.append(byte ^ k)
 
-    print(enckey.hex())
-    return bytes(ciphertext).hex()
+    return bytes(ciphertext)
 
 def rc4_decrypt(ciphertext, key):
-    # Format Text
-    key = bytes(key, 'utf-8')
-    ciphertext = bytes(ciphertext, 'utf-8')
 
     # Initialize S-box
     S = list(range(256))
@@ -48,4 +44,4 @@ def rc4_decrypt(ciphertext, key):
         k = S[(S[i] + S[j]) % 256]
         plaintext.append(byte ^ k)
 
-    return bytes(plaintext).hex()
+    return bytes(plaintext)
