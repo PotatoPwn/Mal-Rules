@@ -4,5 +4,7 @@ def list_configs():
     > Redline       |Stealer
     > Xworm         |RAT
     > Remcos        |RAT
+    > NjRat         |RAT
+
     """
     print(config_list)

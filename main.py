@@ -7,6 +7,7 @@ from json import dumps
 from RedLine.RedLineParserv2 import RedLineConfigParser
 from XWorm.XwormParserv2 import XWormConfigParser
 from Remcos.RemcosParserv2 import RemcosConfigParser
+from NJRat.NJRatParser import NJParser
 
 
 
@@ -48,16 +49,19 @@ if __name__ == '__main__':
         try:
             if args.mode.lower() == "redline":
                 parsed_results = RedLineConfigParser(fp)
-            if args.mode.lower() == "xworm":
+            elif args.mode.lower() == "xworm":
                 parsed_results = XWormConfigParser(fp)
-            if args.mode.lower() == "remcos":
+            elif args.mode.lower() == "remcos":
                 parsed_results = RemcosConfigParser(fp)
+            elif args.mode.lower() == "njrat":
+                parsed_results = NJParser(fp)
             else:
                 print(f"No config for {args.mode}")
             results.append(parsed_results)
         except:
             print(f'Error Occurred while parsing {fp}')
-        print(dumps(parsed_results, indent=2))
+
+    print(dumps(parsed_results, indent=2))
 
 
 

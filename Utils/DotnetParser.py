@@ -2,6 +2,9 @@ from logging import getLogger
 from re import DOTALL, findall, search
 from Utils.MapTable import MAP_TABLE
 
+# Script modified and mainly based off jeff0falltrades
+# https://www.youtube.com/watch?v=xV0x7kNZ_Yc&t=12991s
+
 logger = getLogger(__name__)
 
 class ErrorHandling(Exception):
@@ -10,9 +13,8 @@ class ErrorHandling(Exception):
 class ClrParser:
 
     # Static Dotnet Configs
-    RET_OPCODE = b'\x2a'
+    RET_OPCODE = b'\x2A'
     PATTERN_CLR_METADATA_START = b'\x42\x53\x4a\x42'
-    PATTERN_PARSED_RVAS = b'\x72(.{4})\x80(.{4})'
     STREAM_IDENTIFIER_STORAGE = b'#~'
     STREAM_IDENTIFIER_STRINGS = b'#Strings'
     STREAM_IDENTIFIER_US = b'#US'
@@ -21,9 +23,10 @@ class ClrParser:
     RVA_STRING_BASE = 0x04000000
     MAP_TABLE = MAP_TABLE
 
-    def __init__(self, file_path, config_pattern_bytes):
+    def __init__(self, file_path, config_pattern_bytes, pattern_parsed_rva):
         self.PATTERN_CONFIG_START = config_pattern_bytes
         self.file_path = file_path
+        self.PATTERN_PARSED_RVAS = pattern_parsed_rva
         self.file_data = self.retrieve_file_data()
         self.table_map = self.get_table_map()
         self.fields_map = self.get_fields_map()
@@ -66,7 +69,7 @@ class ClrParser:
             config_name_rva = self.bytes_to_int(string_rva)
             config_mappings.append((config_value_rva, config_name_rva))
         logger.debug(
-            f'Found Config Item: ({hex(config_value_rva)}, {hex(config_name_rva)}'
+            f'Found Config Item: ({hex(config_value_rva)}, {hex(config_name_rva)})'
         )
         return config_mappings
 

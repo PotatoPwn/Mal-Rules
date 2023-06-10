@@ -6,7 +6,8 @@ from re import sub
 
 def XWormConfigParser(file_path):
     byte_config = b'(\x72.{9}){3}'
-    enc_result = ClrParser(file_path, byte_config)
+    rva_pattern = b'\x72(.{4})\x80(.{4})'
+    enc_result = ClrParser(file_path, byte_config, rva_pattern)
     return config_result(enc_result.decrypted_config())
 
 def config_result(result):

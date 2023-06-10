@@ -5,7 +5,8 @@ from base64 import b64decode
 
 def RedLineConfigParser(file_path):
     byte_config = b'(\x72.{9}){4}'
-    result = ClrParser(file_path, byte_config)
+    rva_pattern = b'\x72(.{4})\x80(.{4})'
+    result = ClrParser(file_path, byte_config, rva_pattern)
     return Decrypt_Address(result.decrypted_config())
 
 
