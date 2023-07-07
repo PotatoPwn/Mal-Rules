@@ -10,6 +10,7 @@ Python main.py <FILEPATH> -M <FAMILY>
 - Remcos
 - Redline Stealer
 - Xworm
+- NJRat
 
 
 
