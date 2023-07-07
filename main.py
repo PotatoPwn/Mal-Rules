@@ -4,10 +4,10 @@ from argparse import ArgumentParser
 from logging import basicConfig, DEBUG, WARNING
 from json import dumps
 
-from RedLine.RedLineParserv2 import RedLineConfigParser
-from XWorm.XwormParserv2 import XWormConfigParser
-from Remcos.RemcosParserv2 import RemcosConfigParser
-from NJRat.NJRatParser import NJParser
+from ConfigParsers.RedLine.RedLineParserv2 import RedLineConfigParser
+from ConfigParsers.XWorm.XwormParserv2 import XWormConfigParser
+from ConfigParsers.Remcos.RemcosParserv2 import RemcosConfigParser
+from ConfigParsers.NJRat.NJRatParser import NJParser
 
 
 
