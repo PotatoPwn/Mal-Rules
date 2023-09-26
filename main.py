@@ -8,6 +8,7 @@ from ConfigParsers.RedLine.RedLineParserv2 import RedLineConfigParser
 from ConfigParsers.XWorm.XwormParserv2 import XWormConfigParser
 from ConfigParsers.Remcos.RemcosParserv2 import RemcosConfigParser
 from ConfigParsers.NJRat.NJRatParser import NJParser
+from ConfigParsers.StealC.ConfigParser import StealCParser
 
 
 
@@ -46,6 +47,7 @@ if __name__ == '__main__':
 
     for fp in args.File_Path:
         results = []
+        # Use Case Statements here
         try:
             if args.mode.lower() == "redline":
                 parsed_results = RedLineConfigParser(fp)
