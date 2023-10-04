@@ -8,7 +8,8 @@ from ConfigParsers.RedLine.RedLineParserv2 import RedLineConfigParser
 from ConfigParsers.XWorm.XwormParserv2 import XWormConfigParser
 from ConfigParsers.Remcos.RemcosParserv2 import RemcosConfigParser
 from ConfigParsers.NJRat.NJRatParser import NJParser
-from ConfigParsers.StealC.ConfigParser import StealCParser
+from ConfigParsers.StealC.ConfigParser import StealCParse
+from ConfigParsers.LokiBot.LokiExtractor import LokiBotConfigExtraction
 
 
 
@@ -44,26 +45,52 @@ if __name__ == '__main__':
     else:
         basicConfig(level=WARNING)
 
+    '''
+    yara Python can only compile one rule at a time
+    here is an example of what you could do
+    
+    for malware in sampledir:
+        for yararule in ruledir:
+            try:
+                rule = compile(yararule)
+                scanresult = rule.scan(malware)
+                if scanresult != null
+                    result.append(parseconfig(malware))
+                else
+                    continue
+            except:
+                print "scan rule failed for malware"
+    
+    '''
+
 
     for fp in args.File_Path:
         results = []
         # Use Case Statements here
         try:
-            if args.mode.lower() == "redline":
-                parsed_results = RedLineConfigParser(fp)
-            elif args.mode.lower() == "xworm":
-                parsed_results = XWormConfigParser(fp)
-            elif args.mode.lower() == "remcos":
-                parsed_results = RemcosConfigParser(fp)
-            elif args.mode.lower() == "njrat":
-                parsed_results = NJParser(fp)
-            else:
-                print(f"No config for {args.mode}")
-            results.append(parsed_results)
+            SampleName = args.mode.lower()
+
+            match SampleName:
+                case "redline":
+                    PResults = RedLineConfigParser(fp)
+                case "xworm":
+                    PResults = XWormConfigParser(fp)
+                case "remcos":
+                    PResults = RemcosConfigParser(fp)
+                case "njrat":
+                    PResults = NJParser(fp)
+                case "stealc":
+                    PResults = StealCParse(fp)
+                case "LokiBot":
+                    PResults = LokiBotConfigExtraction(fp)
+                case _:
+                    print(f"No config found for {SampleName}")
+
+            results.append(PResults)
         except:
             print(f'Error Occurred while parsing {fp}')
 
-    print(dumps(parsed_results, indent=2))
+    print(dumps(PResults, indent=2))
 
 
 

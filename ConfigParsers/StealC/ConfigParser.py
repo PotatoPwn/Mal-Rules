@@ -1,25 +1,5 @@
 from base64 import b64decode
-
-def rc4_decrypt(ciphertext, key):
-
-    # Initialize S-box
-    S = list(range(256))
-    j = 0
-    for i in range(256):
-        j = (j + S[i] + key[i % len(key)]) % 256
-        S[i], S[j] = S[j], S[i]
-
-    # Generate keystream and decrypt ciphertext
-    i = j = 0
-    plaintext = []
-    for byte in ciphertext:
-        i = (i + 1) % 256
-        j = (j + S[i]) % 256
-        S[i], S[j] = S[j], S[i]
-        k = S[(S[i] + S[j]) % 256]
-        plaintext.append(byte ^ k)
-
-    return bytes(plaintext)
+from Utils.Algorithms.Rc4 import rc4_decrypt
 
 
 def FindData(offset, filename):
