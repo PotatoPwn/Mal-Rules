@@ -1,20 +1,19 @@
 from pefile import PE
 from Utils.Algorithms.Rc4 import rc4_decrypt
 from re import search, sub
-from string import printable
 
 
-def RemcosConfigParser(file_path):
+def RemcosConfigParser(FilePath):
     try:
-        data_section = retrieve_correct_section(file_path)
-        decrypted_data = decrypt_info(data_section)
-        return identify_config(decrypted_data)
+        DataSection = retrieve_correct_section(FilePath)
+        DecryptedData = decrypt_info(DataSection)
+        return identify_config(DecryptedData)
     except Exception:
-        return f'Error for {file_path} has occurred'
+        return f'Error for {FilePath} has occurred'
 
 
-def retrieve_correct_section(file_path):
-    pe = PE(file_path)
+def retrieve_correct_section(FilePath):
+    pe = PE(FilePath)
     for rsrc in pe.DIRECTORY_ENTRY_RESOURCE.entries:
         for entry in rsrc.directory.entries:
             if entry.name is not None:

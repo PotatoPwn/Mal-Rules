@@ -1,98 +1,88 @@
 #!/usr/bin/env python3
 
+from os import listdir
+from os.path import isfile, join
+
 from argparse import ArgumentParser
 from logging import basicConfig, DEBUG, WARNING
-from json import dumps
 
-from ConfigParsers.RedLine.RedLineParserv2 import RedLineConfigParser
-from ConfigParsers.XWorm.XwormParserv2 import XWormConfigParser
-from ConfigParsers.Remcos.RemcosParserv2 import RemcosConfigParser
-from ConfigParsers.NJRat.NJRatParser import NJParser
-from ConfigParsers.StealC.ConfigParser import StealCParse
-from ConfigParsers.LokiBot.LokiExtractor import LokiBotConfigExtraction
+import yara
+
+from ConfigParsers.RedLineParser import RedLineConfigParser
+from ConfigParsers.XWormParser import XWormConfigParser
+from ConfigParsers.RemcosParser import RemcosConfigParser
+from ConfigParsers.NJRatParser import NJRatConfigParser
+from ConfigParsers.StealCParser import StealCConfigParser
+from ConfigParsers.LokiBotParser import LokiBotConfigParser
+
+from Utils.ConfigList import ListConfigs
 
 
+def DecryptConfig(FileName, FamilySample):
+    _FamilyName = FamilySample.lower()
 
-from Utils.ConfigList import list_configs
+    try:
+        match _FamilyName:
+            case "redline":
+                PResults = RedLineConfigParser(FileName)
+            case "xworm":
+                PResults = XWormConfigParser(FileName)
+            case "remcos":
+                PResults = RemcosConfigParser(FileName)
+            case "njrat":
+                PResults = NJRatConfigParser(FileName)
+            case "stealc":
+                PResults = StealCConfigParser(FileName)
+            case "lokiBot":
+                PResults = LokiBotConfigParser(FileName)
+            case _:
+                print(f"No config found for {FileName}")
+                return
+
+        print(PResults)
+    except:
+        print(f"Error Parsing {FileName}")
+
 
 if __name__ == '__main__':
+    ListConfigs()
+
     ap = ArgumentParser()
-    ap.add_argument(
-        'File_Path',
-        nargs='+',
-        help=f'Sample you want Check'
-    )
-    ap.add_argument(
-        '-d',
-        '--debug',
-        help='Enables Debugging mode'
-    )
-    ap.add_argument(
-        '-m',
-        '--mode',
-        help='Choose what Family you want to retrieve configs from'
-    )
-    ap.add_argument(
-        '-l',
-        '--list',
-        help='Shows a list of parsed configs',
-        action='store_const',
-        const=list_configs()
-    )
+
+    ap.add_argument('-f', '--path', help='Folder Sample You wish to Check')
+
+    ap.add_argument('-d', '--debug', help='Enables Debugging mode')
+
+    ap.add_argument('-m', '--mode', help='Choose what Family you want to retrieve configs from')
+
     args = ap.parse_args()
     if args.debug:
         basicConfig(level=DEBUG)
     else:
         basicConfig(level=WARNING)
 
-    '''
-    yara Python can only compile one rule at a time
-    here is an example of what you could do
-    
-    for malware in sampledir:
-        for yararule in ruledir:
-            try:
-                rule = compile(yararule)
-                scanresult = rule.scan(malware)
-                if scanresult != null
-                    result.append(parseconfig(malware))
-                else
-                    continue
-            except:
-                print "scan rule failed for malware"
-    
-    '''
+    # Get Files
+    if args.path is None:
+        Directory = "SampleFolder"
+    else:
+        Directory = args.path
 
+    YaraRules = [file for file in listdir("YaraRules") if isfile(join("YaraRules", file))]
 
-    for fp in args.File_Path:
-        results = []
-        # Use Case Statements here
-        try:
-            SampleName = args.mode.lower()
+    try:
+        Samples = [file for file in listdir(Directory) if isfile(join(Directory, file))]
+    except:
+        print(f"{Directory} Doesnt Exist, Exiting...")
+        exit(1)
 
-            match SampleName:
-                case "redline":
-                    PResults = RedLineConfigParser(fp)
-                case "xworm":
-                    PResults = XWormConfigParser(fp)
-                case "remcos":
-                    PResults = RemcosConfigParser(fp)
-                case "njrat":
-                    PResults = NJParser(fp)
-                case "stealc":
-                    PResults = StealCParse(fp)
-                case "LokiBot":
-                    PResults = LokiBotConfigExtraction(fp)
-                case _:
-                    print(f"No config found for {SampleName}")
+    for Malware in Samples:
+        for Rules in YaraRules:
+            _SamplePath = f"{Directory}/{Malware}"
+            _YaraRules = f"YaraRules/{Rules}"
 
-            results.append(PResults)
-        except:
-            print(f'Error Occurred while parsing {fp}')
+            YarRule = yara.compile(_YaraRules)
+            Matches = YarRule.match(_SamplePath)
 
-    print(dumps(PResults, indent=2))
-
-
-
-
-
+            if Matches:
+                print(f"The sample {Malware}, Matches with the rule {Rules}")
+                DecryptConfig(_SamplePath, _YaraRules)

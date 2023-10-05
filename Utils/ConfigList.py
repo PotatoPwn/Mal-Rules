@@ -1,5 +1,5 @@
 
-def list_configs():
+def ListConfigs():
     config_list = """
     > Redline       |Stealer
     > Xworm         |RAT

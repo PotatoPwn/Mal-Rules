@@ -1,4 +1,5 @@
-import Utils.Algorithms.TripleDes
+from Utils.Algorithms import TripleDes
+
 
 def FindData(Offset, FileName):
 	with open(FileName, "rb") as file:
@@ -30,7 +31,7 @@ def GetEndpoints(Results):
 
 
 
-def LokiBotConfigExtraction(FileName):
+def LokiBotConfigParser(FileName):
 	Offset = 0x174d0
 	#FileName = "LokiBotbotExe.bin"
 
