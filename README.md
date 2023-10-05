@@ -11,6 +11,8 @@ Python main.py <FILEPATH> -M <FAMILY>
 - Redline Stealer
 - Xworm
 - NJRat
+- LokiBot
+- StealC
 
 
 
