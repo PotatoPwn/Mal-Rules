@@ -14,6 +14,7 @@ from ConfigParsers.RemcosParser import RemcosConfigParser
 from ConfigParsers.NJRatParser import NJRatConfigParser
 from ConfigParsers.StealCParser import StealCConfigParser
 from ConfigParsers.LokiBotParser import LokiBotConfigParser
+from ConfigParsers.PovertyStealerParser import PovertyStealerConfigParser
 
 from Utils.ConfigList import ListConfigs
 
@@ -35,6 +36,8 @@ def DecryptConfig(FileName, FamilySample):
                 PResults = StealCConfigParser(FileName)
             case "lokiBot":
                 PResults = LokiBotConfigParser(FileName)
+            case "PovertyStealer":
+                PResults = PovertyStealerConfigParser(FileName)
             case _:
                 print(f"No config found for {FileName}")
                 return
