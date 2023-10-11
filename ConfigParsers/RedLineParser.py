@@ -1,6 +1,7 @@
-from Utils.DotnetParser import ClrParser
-from Utils.Ciphers.Xor import XorAlgorithm
 from base64 import b64decode
+
+from Utils.Ciphers.Xor import XorAlgorithm
+from Utils.DotnetParser import ClrParser
 
 
 def RedLineConfigParser(file_path):

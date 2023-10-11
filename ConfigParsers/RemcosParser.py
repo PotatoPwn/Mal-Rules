@@ -1,6 +1,8 @@
+from re import search
+
 from pefile import PE
+
 from Utils.Algorithms.Rc4 import rc4_decrypt
-from re import search, sub
 
 
 def RemcosConfigParser(FilePath):

@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
 
+from argparse import ArgumentParser
+from logging import basicConfig, DEBUG, WARNING
 from os import listdir
 from os.path import isfile, join
 
-from argparse import ArgumentParser
-from logging import basicConfig, DEBUG, WARNING
-
 import yara
 
-from ConfigParsers.RedLineParser import RedLineConfigParser
-from ConfigParsers.XWormParser import XWormConfigParser
-from ConfigParsers.RemcosParser import RemcosConfigParser
-from ConfigParsers.NJRatParser import NJRatConfigParser
-from ConfigParsers.StealCParser import StealCConfigParser
 from ConfigParsers.LokiBotParser import LokiBotConfigParser
+from ConfigParsers.NJRatParser import NJRatConfigParser
 from ConfigParsers.PovertyStealerParser import PovertyStealerConfigParser
-
+from ConfigParsers.RedLineParser import RedLineConfigParser
+from ConfigParsers.RemcosParser import RemcosConfigParser
+from ConfigParsers.StealCParser import StealCConfigParser
+from ConfigParsers.XWormParser import XWormConfigParser
 from Utils.ConfigList import ListConfigs
 
 

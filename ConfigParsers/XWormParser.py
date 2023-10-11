@@ -1,8 +1,10 @@
-from Utils.DotnetParser import ClrParser
-from hashlib import md5
 from base64 import b64decode
-from Crypto.Cipher import AES
+from hashlib import md5
 from re import sub
+
+from Crypto.Cipher import AES
+
+from Utils.DotnetParser import ClrParser
 
 
 def XWormConfigParser(file_path):

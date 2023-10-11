@@ -1,4 +1,5 @@
 from base64 import b64decode
+
 from Utils.Algorithms.Rc4 import rc4_decrypt
 
 

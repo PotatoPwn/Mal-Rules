@@ -1,4 +1,3 @@
-
 def ListConfigs():
     config_list = """
     > Redline       |Stealer

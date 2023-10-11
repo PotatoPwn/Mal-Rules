@@ -1,5 +1,6 @@
 from re import compile
 
+
 def PScanner(Filename, Pattern):
     with open(Filename, "rb") as File:
         BinaryData = File.read()

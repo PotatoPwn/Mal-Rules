@@ -1,5 +1,6 @@
 from logging import getLogger
 from re import DOTALL, findall, search
+
 from Utils.MapTable import MAP_TABLE
 
 # Script modified and mainly based off jeff0falltrades
@@ -7,11 +8,12 @@ from Utils.MapTable import MAP_TABLE
 
 logger = getLogger(__name__)
 
+
 class ErrorHandling(Exception):
     pass
 
-class ClrParser:
 
+class ClrParser:
     # Static Dotnet Configs
     RET_OPCODE = b'\x2A'
     PATTERN_CLR_METADATA_START = b'\x42\x53\x4a\x42'
@@ -33,7 +35,6 @@ class ClrParser:
         self.config_addr_map = self.get_config_addr_map()
         self.translated_config = self.retrieve_translated_config()
         self.decrypted_strings = self.decrypted_config()
-
 
     def retrieve_file_data(self):
         logger.debug(
@@ -73,7 +74,6 @@ class ClrParser:
         )
         return config_mappings
 
-
     def get_table_map(self):
         logger.debug(
             f'Extracting Table Map for {self.file_path}'
@@ -85,8 +85,8 @@ class ClrParser:
         cur_offset = table_start
         try:
             for table in table_map:
-                if mask_valid & (2**list(table_map.keys()).index(table)):
-                    row_count_packed = self.file_data[cur_offset:cur_offset+4]
+                if mask_valid & (2 ** list(table_map.keys()).index(table)):
+                    row_count_packed = self.file_data[cur_offset:cur_offset + 4]
                     row_count = self.bytes_to_int(row_count_packed)
                     table_map[table]['num_rows'] = row_count
                     logger.debug(
@@ -114,9 +114,9 @@ class ClrParser:
         cur_offset = fields_start
         for x in range(self.table_map[self.TABLE_FIELD]['num_rows']):
             try:
-                field_offset = self.bytes_to_int(self.file_data[cur_offset+2:
-                                                                cur_offset+4])
-                field_value = self.get_string_from_offset(strings_start+
+                field_offset = self.bytes_to_int(self.file_data[cur_offset + 2:
+                                                                cur_offset + 4])
+                field_value = self.get_string_from_offset(strings_start +
                                                           field_offset)
                 cur_offset += self.table_map[self.TABLE_FIELD]['row_size']
             except Exception as e:
@@ -157,7 +157,6 @@ class ClrParser:
         stream_offset = self.bytes_to_int(self.file_data[hit - 8:hit - 4])
         return metadata_header_offset + stream_offset
 
-
     def retrieve_translated_config(self):
         logger.debug(
             f'Translating Config...'
@@ -187,7 +186,6 @@ class ClrParser:
                 f"Couldn't Find CLR MetaData Header"
             )
         return hit
-
 
     def get_string_from_offset(self, str_offset, delimiter=b'\0'):
         try:
