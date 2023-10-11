@@ -22,16 +22,18 @@ def retrieve_correct_section(FilePath):
     data = pe.get_data(offset, size)
     return data
 
+
 def decrypt_info(data):
     '''
     The malware uses the first byte to identify how long the key will be
     Everything after the key is to be decrypted
     '''
     key_len_id = data[0]
-    key = data[1:key_len_id+1]
-    encrypted_data = data[key_len_id+1:]
+    key = data[1:key_len_id + 1]
+    encrypted_data = data[key_len_id + 1:]
     decrypted_data = rc4_decrypt(encrypted_data, key)
     return (decrypted_data)
+
 
 def retrieve_c2(data):
     parsed_strings = []
@@ -45,11 +47,13 @@ def retrieve_c2(data):
             break
     return parsed_string
 
+
 def identify_rest(decoded_data, strlength):
-    addressless_config = decoded_data[strlength+2:]
+    addressless_config = decoded_data[strlength + 2:]
     array = addressless_config.split('|')
     cleaned_list = [c for c in array if c.isprintable()]
     return cleaned_list
+
 
 def identify_config(data):
     decoded_data = data.decode("utf-8", "ignore")

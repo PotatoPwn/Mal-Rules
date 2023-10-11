@@ -17,5 +17,5 @@ def NJRatConfigParser(FilePath):
         "C2 Address": ConfigInfo[2],
         "Decoded Strings": DecodedStrings
     }
-    
+
     return Result
