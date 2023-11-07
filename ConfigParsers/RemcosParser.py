@@ -15,6 +15,7 @@ def RemcosConfigParser(FilePath):
 
 
 def retrieve_correct_section(FilePath):
+    # https://github.com/securityjoes/ThreatResearch/blob/main/ConfigExtractors/remcos_config_extractor.py
     pe = PE(FilePath)
     for rsrc in pe.DIRECTORY_ENTRY_RESOURCE.entries:
         for entry in rsrc.directory.entries:
